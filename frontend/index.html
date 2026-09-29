@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistem Penerimaan Mahasiswa Baru</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ================= NAVBAR ================= -->
+  <nav class="navbar">
+    <div class="nav-brand">PMB</div>
+    <div class="nav-links">
+      <a href="#" id="navHome">Home</a>
+      <a href="#" id="navRegister">Pendaftaran</a>
+      <a href="#" id="navLogout" class="hidden">Logout</a>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- Indikator langkah (tampil setelah login) -->
+    <div class="steps hidden" id="steps">
+      <div class="step" data-step="1">1. Data Diri</div>
+      <div class="step" data-step="2">2. Program Studi</div>
+      <div class="step" data-step="3">3. Konfirmasi</div>
+      <div class="step" data-step="4">4. Selesai</div>
+    </div>
+
+    <!-- ================= HALAMAN 1: LOGIN ================= -->
+    <section class="page card card-small" id="page-login">
+      <h1>Sistem Penerimaan Mahasiswa Baru</h1>
+      <p class="subtitle">Silakan login untuk memulai pendaftaran</p>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="username">Username / Email</label>
+          <input type="text" id="username" placeholder="Masukkan username" />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Masukkan password" />
+        </div>
+
+        <div class="alert alert-error hidden" id="loginError"></div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="loginButton">Login</button>
+      </form>
+
+      <p class="hint">Akun demo: <b>admin</b> / <b>admin123</b></p>
+    </section>
+
+    <!-- ================= HALAMAN 2: DATA DIRI ================= -->
+    <section class="page card hidden" id="page-biodata">
+      <h2>Data Diri Calon Mahasiswa</h2>
+      <p class="subtitle">Isi data berikut dengan benar. Tanda <span class="required">*</span> wajib diisi.</p>
+
+      <form id="biodataForm" novalidate>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="fullName">Nama Lengkap <span class="required">*</span></label>
+            <input type="text" id="fullName" placeholder="Contoh: Budi Santoso" />
+          </div>
+
+          <div class="form-group">
+            <label for="nik">NIK <span class="required">*</span></label>
+            <input type="text" id="nik" placeholder="16 digit NIK" maxlength="16" />
+          </div>
+
+          <div class="form-group">
+            <label>Jenis Kelamin <span class="required">*</span></label>
+            <div class="radio-group">
+              <label><input type="radio" name="gender" value="Laki-laki" /> Laki-laki</label>
+              <label><input type="radio" name="gender" value="Perempuan" /> Perempuan</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="birthPlace">Tempat Lahir <span class="required">*</span></label>
+            <input type="text" id="birthPlace" placeholder="Contoh: Jakarta" />
+          </div>
+
+          <div class="form-group">
+            <label for="birthDate">Tanggal Lahir <span class="required">*</span></label>
+            <input type="date" id="birthDate" />
+          </div>
+
+          <div class="form-group full">
+            <label for="address">Alamat <span class="required">*</span></label>
+            <textarea id="address" rows="2" placeholder="Alamat lengkap"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Nomor HP <span class="required">*</span></label>
+            <input type="tel" id="phone" placeholder="Contoh: 08123456789" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email <span class="required">*</span></label>
+            <input type="email" id="email" placeholder="contoh@gmail.com" />
+          </div>
+
+          <div class="form-group">
+            <label for="school">Asal Sekolah <span class="required">*</span></label>
+            <input type="text" id="school" placeholder="Contoh: SMA Negeri 1 Jakarta" />
+          </div>
+
+          <div class="form-group">
+            <label for="graduationYear">Tahun Lulus <span class="required">*</span></label>
+            <input type="number" id="graduationYear" placeholder="Contoh: 2026" min="1990" max="2100" />
+          </div>
+        </div>
+
+        <div class="alert alert-error hidden" id="biodataError"></div>
+
+        <div class="button-row">
+          <button type="submit" class="btn btn-primary">Lanjut Pilih Program Studi</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ================= HALAMAN 3: PILIH PROGRAM STUDI ================= -->
+    <section class="page card hidden" id="page-program">
+      <h2>Pemilihan Program Studi</h2>
+      <p class="subtitle">Pilih <b>1</b> program studi yang Anda minati.</p>
+
+      <!-- Card program studi dibuat otomatis oleh script.js -->
+      <div class="program-list" id="programList"></div>
+
+      <div class="alert alert-error hidden" id="programError"></div>
+
+      <div class="button-row">
+        <button type="button" class="btn btn-secondary" id="backToBiodata">Kembali</button>
+        <button type="button" class="btn btn-primary" id="toConfirmation">Lanjut ke Konfirmasi</button>
+      </div>
+    </section>
+
+    <!-- ================= HALAMAN 4: KONFIRMASI ================= -->
+    <section class="page card hidden" id="page-confirm">
+      <h2>Konfirmasi Data</h2>
+      <p class="subtitle">Periksa kembali data Anda sebelum dikirim.</p>
+
+      <h3 class="section-title">DATA CALON MAHASISWA</h3>
+      <table class="summary-table" id="summaryTable"></table>
+
+      <h3 class="section-title">PROGRAM STUDI PILIHAN</h3>
+      <p class="selected-program" id="summaryProgram"></p>
+
+      <div class="alert alert-error hidden" id="submitError"></div>
+
+      <div class="button-row">
+        <button type="button" class="btn btn-secondary" id="backToProgram">Kembali</button>
+        <button type="button" class="btn btn-primary" id="submitButton">Kirim Pendaftaran</button>
+      </div>
+    </section>
+
+    <!-- ================= HALAMAN 5: HASIL ================= -->
+    <section class="page card card-small center hidden" id="page-result">
+      <div class="success-icon">🎉</div>
+      <h2>Pendaftaran Berhasil!</h2>
+      <p>Data pendaftaran Anda telah berhasil dikirim.</p>
+
+      <div class="result-box">
+        <p>Nomor Pendaftaran:</p>
+        <p class="result-value" id="resultNumber">-</p>
+
+        <p>Program Studi:</p>
+        <p class="result-value" id="resultProgram">-</p>
+      </div>
+
+      <p class="hint">Email konfirmasi telah dikirim ke email admin.</p>
+
+      <button type="button" class="btn btn-primary" id="backToHome">Kembali ke Halaman Utama</button>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    &copy; 2026 Sistem Penerimaan Mahasiswa Baru
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
